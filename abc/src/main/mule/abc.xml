@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="413029ae-ccf1-4edf-aa35-fed3d328a3e9" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="7db9ebba-8ce5-4b8f-8cfb-9f0db7f0cea6" >
+		<file:connection />
+	</file:config>
+	<flow name="abcFlow1" doc:id="a4c75f50-4496-4f64-9084-0ff1c67a3495" >
+		<file:listener doc:name="On New or Updated File" doc:id="35a3ae6d-3f16-4086-8c78-12dba27f820f" config-ref="File_Config" directory="C:\Users\91944\Desktop\source">
+			<scheduling-strategy >
+				<fixed-frequency frequency="1" timeUnit="SECONDS" />
+			</scheduling-strategy>
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="2dcee313-a73a-4d51-8676-fe73d2457f7f" message="#[payload]"/>
+		<file:copy doc:name="Copy" doc:id="622133dc-89ee-4a89-bcda-7df598de24bc" sourcePath="C:\Users\91944\Desktop\source" targetPath="C:\Users\91944\Desktop\target" renameTo="Raaz" config-ref="File_Config"/>
+	</flow>
+</mule>
